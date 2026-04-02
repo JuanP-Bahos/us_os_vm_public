@@ -55,7 +55,7 @@ public class OS {
   public static final int MAX_PROCESS_PRIORITY = 10; // Page size in bytes
   public static final int PAGE_SIZE = 64; // Page size in bytes
   public static final MemoryManagerType SMM = MemoryManagerType.CONTIGUOUS;
-  public static final FreeMemorySlotManagerType MSM = FreeMemorySlotManagerType.BEST_FIT;
+  public static final FreeMemorySlotManagerType MSM = FreeMemorySlotManagerType.WORST_FIT;
 
   public static final ProcessVirtualMemoryManagerType PVMM = ProcessVirtualMemoryManagerType.LRU;
   public static final int FRAMES_PER_PROCESS =
@@ -146,12 +146,12 @@ public class OS {
         break;
 
       case IO_DONE: // It is assumed that the process in IO is done and it has been removed from the
-                    // queue
+        // queue
         rq.addProcess(p);
         break;
 
       case MEMORY_DONE: // It is assumed that the process in Memory is done and it has been removed
-                        // from the queue
+        // from the queue
         rq.addProcess(p);
         break;
 
@@ -234,9 +234,8 @@ public class OS {
           cpu.storePage(
               mpe.getFrameVictim(), mpe.getFrameVictimInSwap()); // Send data from memory to swap
         }
-        if (!mpe
-            .isFullExchange()) { // If it is a fullExchange, then the frame will be used to load
-                                 // another page
+        if (!mpe.isFullExchange()) { // If it is a fullExchange, then the frame will be used to load
+          // another page
           FreeFramesManager ffmm = (FreeFramesManager) fmm;
           ffmm.reclaimFrame(mpe.getFrameVictim()); // Get back the frame
         }
@@ -310,7 +309,7 @@ public class OS {
     }
 
     switch (PVMM) { // Assign the Process Virtual Memory Manager, to support the selection of the
-                    // victim memory division
+      // victim memory division
       case FIFO:
         p.getPMM().setPVMM(new PVMM_FIFO());
         break;
