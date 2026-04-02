@@ -18,25 +18,26 @@ public class BestFitMemorySlotManager extends FreeMemorySlotManager {
     MemorySlot m = null;
 
     MemorySlot bestSlot = null;
-    int bestAmount = 100000;
+    int bestAmount = Integer.MAX_VALUE;
 
     for (MemorySlot memorySlot : list) {
       if (memorySlot.getSize() <= bestAmount && memorySlot.canContain(size)) {
         bestSlot = memorySlot;
-        bestAmount = memorySlot.getBase();
+        bestAmount = memorySlot.getSize();
       }
     }
 
-    if (bestAmount == size) {
+    if (bestSlot == null) {
+      return null;
+    }
+
+    if (bestSlot.getSize() == size) {
       m = bestSlot;
       list.remove(m);
       return m;
     } else {
-
       m = bestSlot.assignMemory(size);
       return m;
     }
-
-    return m;
   }
 }
