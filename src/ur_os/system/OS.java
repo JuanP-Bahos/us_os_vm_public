@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ur_os.system;
 
 import static ur_os.memory.MemoryManagerType.CONTIGUOUS;
@@ -24,6 +20,7 @@ import ur_os.memory.freememorymagament.FreeMemoryManager;
 import ur_os.memory.freememorymagament.FreeMemorySlotManager;
 import ur_os.memory.freememorymagament.FreeMemorySlotManagerType;
 import ur_os.memory.freememorymagament.MemorySlot;
+import ur_os.memory.freememorymagament.NextFitMemorySlotManager;
 import ur_os.memory.freememorymagament.WorstFitMemorySlotManager;
 import ur_os.memory.paging.MemoryPageExchange;
 import ur_os.memory.paging.PMM_Paging;
@@ -36,9 +33,7 @@ import ur_os.process.planning.ReadyQueue;
 import ur_os.virtualmemory.*;
 import ur_os.virtualmemory.ProcessVirtualMemoryManagerType;
 
-/**
- * @author super
- */
+
 public class OS {
 
   ReadyQueue rq;
@@ -98,6 +93,10 @@ public class OS {
         case WORST_FIT:
           fmm = new WorstFitMemorySlotManager(SystemOS.MEMORY_SIZE);
           fvmm = new WorstFitMemorySlotManager(SystemOS.SWAP_MEMORY_SIZE);
+          break;
+        case NEXT_FIT:
+          fmm = new NextFitMemorySlotManager(SystemOS.MEMORY_SIZE);
+          fvmm = new NextFitMemorySlotManager(SystemOS.SWAP_MEMORY_SIZE);
           break;
       }
     }
